@@ -5,11 +5,10 @@ const app = express();
 const {StatusCodes} = require('http-status-codes')
  
 //extra security
-// const helmet = require('helmet')
+const helmet = require('helmet')
 const cors = require('cors')
-// const xss = require('xss-clean')
-// const rateLimiter = require('express-rate-limit')
-// const cors = require('cors'); 
+const xss = require('xss-clean')
+const rateLimiter = require('express-rate-limit')
 
 
 
@@ -26,17 +25,17 @@ const notFoundMiddleware = require('./middleware/not-found');
 const errorHandlerMiddleware = require('./middleware/error-handler');
 
 // extra packages
-// app.set('trust proxy',1)
-// app.use(rateLimiter({
-//   windowMs:15*60*1000,// i5 minutes
-//   max:100,// limit each ip to 100 request per windowMs(15mins)
-// }))
+app.set('trust proxy',1)
+app.use(rateLimiter({
+  windowMs:15*60*1000,// i5 minutes
+  max:100,// limit each ip to 100 request per windowMs(15mins)
+}))
 
 app.use(express.json());
 app.use(cors())
-// app.use(helmet)
+app.use(helmet())
 
-// app.use(xss)
+app.use(xss())
 
 // simple route  
 app.get('/',(req,res)=>{
