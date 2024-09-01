@@ -38,7 +38,7 @@ const sms = AfricasTalking.SMS
 const options = {
     to: ['+254711XXXYYY', '+254733YYYZZZ'],
     message: "I'm a lumberjack and its ok, I work all night and sleep all day",
-    from: '44565'
+    from: '44565' 
 }
 
 // Send message and capture the response or error
