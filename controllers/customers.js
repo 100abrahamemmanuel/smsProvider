@@ -26,11 +26,13 @@ const deleteCustomer = async (req,res)=>{
     if(!phoneNumber){
         throw new BadRequestError("please provide the phoneNumber")
     }
-    const exists = await Customers.findOne({phoneNumber})
-    if(!exists){
-        return res.status(StatusCodes.BAD_REQUEST).json({msg :"There is no customer with this phoneNumber, Thank you"})
-    }
-    await Customers.findOneAndDelete({phoneNumber})
+    phoneNumber.forEach(async (numbers)=>{
+        // const exists = await Customers.findOne({phoneNumber:numbers})
+        // if(!exists && index == phoneNumber.length-1 ){
+        //     throw new BadRequestError(`There is no customer with this phoneNumber , please correct it and send again from were the invalid number starts`)
+        // }
+        await Customers.findOneAndDelete({phoneNumber: numbers})
+    })
     res.status(StatusCodes.CREATED).json({msg :"Customer has been deleted"})
 }
 
