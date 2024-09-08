@@ -1,31 +1,39 @@
 const {StatusCodes} = require('http-status-codes')
+const {BadRequestError} = require('../errors/index');
+var request = require('request');
 
-const credentials = {
-    apiKey: process.env.SMS_API_KEY,         
-    username: process.env.SMS_USERNAME,      
-};
-const AfricasTalking = require('africastalking')(credentials);
 
-// Initialize a service e.g. SMS
-const sms = AfricasTalking.SMS
-
+ 
 const sendSingleSms = async (req,res)=>{
     const {reciever,information}= req.body
     if(!reciever){
         throw new BadRequestError("please provide the phoneNumber of the reciever")
     }
-    try {
-        const options = {
-            to: reciever,
-            message: information,
-            from: '44565'
-        }
-        const result = await sms.send(options)
-        return res.status(StatusCodes.OK).json({msg:result})
-    } catch (error) {
-        res.status(StatusCodes.BAD_REQUEST).json({msg:error})
-    }
+        
+    var data = {
+        "to":`${reciever}`,
+        "from":"Oga Emma",
+        "sms":`${information}`, 
+        "type":"plain",
+        "api_key":process.env.SMS_API_KEY,
+        "channel":"generic", 
+    }; 
+    
+    var options = {
+        'method': 'POST',
+        'url': 'https://v3.api.termii.com/api/sms/send',
+        'headers': {
+            'Accept': 'application/json, text/plain,*/*',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
 
+    };
+    request(options, function (error, response) { 
+    if (error) throw new Error(error);
+        return res.status(StatusCodes.OK).json({msg:response}) 
+    });
+  
 }
 
 const sendBulkSms = async (req,res)=>{
@@ -33,17 +41,30 @@ const sendBulkSms = async (req,res)=>{
     if(!recievers){
         throw new BadRequestError("please provide the phoneNumbers of the recievers")
     }
-    try {
-        const options = {
-            to: recievers,
-            message: information,
-            from: '44565'
-        }
-        const result = await sms.send(options)
-        return res.status(StatusCodes.OK).json({msg:result})
-    } catch (error) {
-        res.status(StatusCodes.BAD_REQUEST).json({msg:error})
-    }
+    
+    var data = {
+        "to":recievers,
+        "from":"Oga Emma",
+        "sms":`${information}`, 
+        "type":"plain",
+        "api_key":process.env.SMS_API_KEY,
+        "channel":"generic", 
+    }; 
+     
+    var options = {
+        'method': 'POST',
+        'url': 'https://v3.api.termii.com/api/sms/send/bulk',
+        'headers': {
+            'Accept': 'application/json, text/plain,*/*',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+
+    };
+    request(options, function (error, response) { 
+    if (error) throw new Error(error);
+         res.status(StatusCodes.OK).json({msg:response}) 
+    });
 
     
 }

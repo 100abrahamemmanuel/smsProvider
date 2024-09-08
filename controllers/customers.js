@@ -17,6 +17,11 @@ const addCustomer = async (req,res)=>{
 }
 
 const getAllCustomers = async (req,res)=>{
+    // const host = req.headers.host;
+    // const port = host.split(':')[1];
+    // console.log(req);
+    console.log(`Request received on port ${req.port}`);
+
     const customers = await Customers.find({})
     res.status(StatusCodes.OK).json({msg : customers, count: customers.length})
 }
@@ -27,10 +32,10 @@ const deleteCustomer = async (req,res)=>{
         throw new BadRequestError("please provide the phoneNumber")
     }
     phoneNumber.forEach(async (numbers)=>{
-        // const exists = await Customers.findOne({phoneNumber:numbers})
-        // if(!exists && index == phoneNumber.length-1 ){
-        //     throw new BadRequestError(`There is no customer with this phoneNumber , please correct it and send again from were the invalid number starts`)
-        // }
+        const exists = await Customers.findOne({phoneNumber:numbers})
+        if(!exists && index == phoneNumber.length-1 ){
+            throw new BadRequestError(`There is no customer with this phoneNumber: ${numbers} , please correct it and send again from were the invalid number starts`)
+        }
         await Customers.findOneAndDelete({phoneNumber: numbers})
     })
     res.status(StatusCodes.CREATED).json({msg :"Customer has been deleted"})
