@@ -21,7 +21,7 @@ const connectDB = require('./db/connect')
 //Router
 const customersRouter = require('./routes/customers')
 const walletRouter = require('./routes/wallet')
-const smsRouter = require('./routes/sendSMS')
+const smsRouter = require('./routes/sendSms')
 
 // error handler
 const notFoundMiddleware = require('./middleware/not-found');

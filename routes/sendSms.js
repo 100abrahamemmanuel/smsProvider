@@ -1,5 +1,5 @@
 const express = require('express')
-const { sendSingleSms, sendBulkSms } = require('../controllers/sendSMS')
+const { sendSingleSms, sendBulkSms } = require('../controllers/sendSms')
 
 const router = express.Router()
 
