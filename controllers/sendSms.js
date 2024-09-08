@@ -31,7 +31,8 @@ const sendSingleSms = async (req,res)=>{
     };
     request(options, function (error, response) { 
     if (error) throw new Error(error);
-        return res.status(StatusCodes.OK).json({msg:response}) 
+       let body = response.body
+        return res.status(StatusCodes.OK).json({msg:body}) 
     });
   
 }
@@ -63,7 +64,8 @@ const sendBulkSms = async (req,res)=>{
     };
     request(options, function (error, response) { 
     if (error) throw new Error(error);
-         res.status(StatusCodes.OK).json({msg:response}) 
+        let body = response.body
+         res.status(StatusCodes.OK).json({msg:body}) 
     });
 
     
