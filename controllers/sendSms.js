@@ -30,8 +30,8 @@ const sendSingleSms = async (req,res)=>{
 
     };
     request(options, function (error, response) { 
-    if (error) throw new Error(error);
-       let body = response.body
+    if (error) throw new BadRequestError(error);
+       let body = JSON.parse(response.body)
         return res.status(StatusCodes.OK).json({msg:body}) 
     });
   
