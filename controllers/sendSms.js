@@ -23,7 +23,7 @@ const sendSingleSms = async (req,res)=>{
         'method': 'POST',
         'url': 'https://v3.api.termii.com/api/sms/send',
         'headers': {
-            'Accept': 'application/json, text/plain,*/*',
+            'Accept': 'application/json',
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(data)
@@ -56,7 +56,7 @@ const sendBulkSms = async (req,res)=>{
         'method': 'POST',
         'url': 'https://v3.api.termii.com/api/sms/send/bulk',
         'headers': {
-            'Accept': 'application/json, text/plain,*/*',
+            'Accept': 'application/json',
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(data)
